@@ -13,6 +13,7 @@ int PWM_B = 11;
 // Status indicators
 int standbyLED = 5;
 int forwardLED = 6;
+int backwardLED = 7;
 
 void setup() {
   // Beginning serial
@@ -73,9 +74,23 @@ void loop() {
     Serial.println("Status: moving forward...");
   }
 
-  // 10 is ???
+  // 10 is drive backward:
   else if (input2State == HIGH && input1State == LOW) {
+    // Turn off standby led
+    digitalWrite(standbyLED, LOW);
+    // Turn on backward led
+    digitalWrite(backwardLED, HIGH);
+
+    // Set both directions to low so it drives backward
+    digitalWrite(DirA, LOW);
+    digitalWrite(DirB, LOW);
+
+    // Set motor power to high:
+    analogWrite(PWM_A, 255);
+    analogWrite(PWM_B, 255);
     
+    // Updating serial monitor
+    Serial.println("Status: moving backward...");
   }
 
   // 11 is ???
